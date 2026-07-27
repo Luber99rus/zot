@@ -1,0 +1,7 @@
+import { nodeTypes, uid } from '../state/catalog';
+import type { Link, RouteNode } from '../types';
+
+export function RouteDesigner({ route, setRoute, links, setLinks, setSel }: any) {
+  const add = (type: string) => setRoute([...route, { id: uid(), type, title: type, x: 90 + route.length * 34, y: 260, executor: '', role: '', term: '', sla: '', comment: '', condition: '' }]);
+  return <><div className="palette">{nodeTypes.map(type => <button key={type} onClick={() => add(type)}>+ {type}</button>)}<button onClick={() => route.length > 1 && setLinks([...links, { id: uid(), from: route[route.length - 2].id, to: route[route.length - 1].id, title: 'переход', condition: '' }])}>Связать последние</button></div><div className="routeCanvas">{links.map((link: Link) => <button key={link.id} className="link" onClick={() => setSel({ kind: 'link', id: link.id })}>{route.find((node: RouteNode) => node.id === link.from)?.title} → {route.find((node: RouteNode) => node.id === link.to)?.title}: {link.title}</button>)}{route.map((node: RouteNode) => <div key={node.id} className="node" draggable style={{ left: node.x, top: node.y }} onClick={() => setSel({ kind: 'route', id: node.id })} onDragEnd={event => setRoute((items: RouteNode[]) => items.map(item => item.id === node.id ? { ...item, x: event.clientX - 250, y: event.clientY - 96 } : item))}><b>{node.type}</b><span>{node.title}</span><small>{node.role} {node.sla}</small></div>)}</div></>;
+}
