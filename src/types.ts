@@ -1,0 +1,12 @@
+export type Section = 'card' | 'route' | 'approval' | 'preview';
+export type FieldType = 'Текст' | 'Число' | 'Дата' | 'Выпадающий список' | 'Множественный список' | 'Пользователь' | 'Организация' | 'Файл' | 'Ссылка' | 'Checkbox' | 'Таблица';
+export type Width = '25%' | '33%' | '50%' | '66%' | '100%';
+export type TaskCardStatus = 'Черновик' | 'Опубликована' | 'На изменении';
+export type TaskCard = { id: string; name: string; code: string; description: string; status: TaskCardStatus; updated: string };
+export type Field = { id: string; title: string; code: string; type: FieldType; description: string; required: boolean; readonly: boolean; defaultValue: string; width: Width; hidden: boolean; position: string; display: string };
+export type Block = { id: string; title: string; color: string; columns: number; fields: Field[] };
+export type TransitionButton = { id: string; title: string; code: string; target: string; condition: string; color: string };
+export type RouteNode = { id: string; title: string; type: string; x: number; y: number; executor: string; role: string; term: string; sla: string; comment: string; condition: string };
+export type Link = { id: string; from: string; to: string; title: string; condition: string };
+export type Approval = { id: string; n: number; stage: string; role: string; executor: string; condition: string; term: string; delegation: string; required: boolean; comment: string };
+export type Selection = { kind: 'card'; id: string } | { kind: 'block'; id: string } | { kind: 'field'; blockId: string; id: string } | { kind: 'button'; id: string } | { kind: 'route'; id: string } | { kind: 'link'; id: string } | { kind: 'approval'; id: string };

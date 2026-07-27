@@ -1,0 +1,7 @@
+import { uid } from '../state/catalog';
+import type { Approval } from '../types';
+
+export function ApprovalEditor({ approvals, setApprovals, setSel, query }: any) {
+  const rows = approvals.filter((row: Approval) => JSON.stringify(row).toLowerCase().includes(query.toLowerCase()));
+  return <><div className="palette"><button onClick={() => setApprovals([...approvals, { id: uid(), n: approvals.length + 1, stage: 'Новый этап', role: '', executor: '', condition: '', term: '', delegation: 'Нет', required: false, comment: '' }])}>+ Строка</button><button>Массовое редактирование</button><button>Фильтр</button></div><table><thead><tr>{['№', 'Этап', 'Роль', 'Исполнитель', 'Условие', 'Срок', 'Делегирование', 'Обязательный этап', 'Комментарий', ''].map(title => <th key={title}>{title}</th>)}</tr></thead><tbody>{rows.map((row: Approval) => <tr key={row.id} draggable onClick={() => setSel({ kind: 'approval', id: row.id })}><td>{row.n}</td><td>{row.stage}</td><td>{row.role}</td><td>{row.executor}</td><td>{row.condition}</td><td>{row.term}</td><td>{row.delegation}</td><td>{row.required ? 'Да' : 'Нет'}</td><td>{row.comment}</td><td><button onClick={() => setApprovals((items: Approval[]) => items.filter(item => item.id !== row.id))}>×</button><button onClick={() => setApprovals((items: Approval[]) => [...items, { ...row, id: uid(), n: items.length + 1, stage: `${row.stage} копия` }])}>⧉</button></td></tr>)}</tbody></table></>;
+}
